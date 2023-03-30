@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:panucci_ristorante/components/main_drawer.dart';
+import 'package:panucci_ristorante/screens/drink_menu.dart';
 import 'package:panucci_ristorante/screens/highlights.dart';
+import 'package:panucci_ristorante/screens/request_menu.dart';
 import 'package:panucci_ristorante/themes/app_colors.dart';
+
+import 'food_menu.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -14,6 +18,7 @@ class _HomeState extends State<Home> {
   int _currentPage = 0;
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [Highlights(), FoodMenu(), DrinkMenu(),];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Ristorante Menezes"),
@@ -30,29 +35,29 @@ class _HomeState extends State<Home> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const Home();
+            return const RequestMenu();
           }));
         },
         child: const Icon(Icons.point_of_sale),
       ),
       drawer: const MainDrawer(),
       bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star_rounded),
-              label: 'Destaques',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.restaurant_menu),
-              label: 'Menu',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.local_bar),
-              label: 'Bebidas',
-            ),
-          ],
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star_rounded),
+            label: 'Destaques',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.restaurant_menu),
+            label: 'Menu',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_bar),
+            label: 'Bebidas',
+          ),
+        ],
         selectedItemColor: AppColors.bottomNavigationBarIconColor,
         currentIndex: _currentPage,
         onTap: (index) {
@@ -61,7 +66,7 @@ class _HomeState extends State<Home> {
           });
         },
       ),
-      body: Highlights(),
+      body: pages.elementAt(_currentPage),
     );
   }
 }
